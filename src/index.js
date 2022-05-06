@@ -3,6 +3,7 @@ const title = document.createElement("p");
 const textArea = document.createElement("textarea");
 const keyboard = document.createElement("div");
 
+//Назначение аттрибутов
 wrapper.classList.add("wrapper");
 title.classList.add("title");
 textArea.classList.add("body-texearea", "textarea");
@@ -12,18 +13,21 @@ textArea.cols = 5;
 textArea.setAttribute("autofocus", "");
 keyboard.classList.add("body-keyboard", "keyboard");
 
+//Создание рядов клавиатуры
 const row1 = document.createElement("div")
 const row2 = document.createElement("div");
 const row3 = document.createElement("div");
 const row4 = document.createElement("div");
 const row5 = document.createElement("div");
 
+//Назначение классов рядам клавиатуры
 row1.classList.add("keyboard-row", "row", "row1");
 row2.classList.add("keyboard-row", "row", "row2");
 row3.classList.add("keyboard-row", "row", "row3");
 row4.classList.add("keyboard-row", "row", "row4");
 row5.classList.add("keyboard-row", "row", "row5");
 
+//Добавление в документ созданной структуры
 document.body.append(wrapper);
 wrapper.append(title,textArea,keyboard);
 title.textContent = "RSS Виртуальная клавиатура";
@@ -47,6 +51,13 @@ capsEnglishArr = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
         ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '↑', 'Shift'],
          ['Ctrl', 'Win','Alt', ' ', 'Alt', '←', '↓', '→','Ctrl']];
 
+lowerRussianArr = [['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
+      ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del'],
+       ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', "э", 'Enter'],
+        ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '↑', 'Shift'],
+         ['Ctrl', 'Win', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
+
+//Функция для создания клавиш для поределенного ряда клавиатуры
 function addKeys (keysInRows, whichRow, whichArr) {
   for (let i = 0; i < keysInRows; i++) {
     let key = document.createElement("div");
@@ -71,10 +82,25 @@ function addKeys (keysInRows, whichRow, whichArr) {
     caps.classList.add("caps", "hidden");
     caps.textContent = capsEnglishArr[whichArr][i];
 
+    //добавление русс раскладки (обертка)
+    let keyRu = document.createElement("span");
+    keyRu.classList.add("ru", "hidden");
+
+    //Добавление маленькой англ раскладки
+    let caseRuDown = document.createElement("span");
+    caseRuDown.classList.add("caseDown");
+    caseRuDown.textContent = lowerRussianArr[whichArr][i];
+
     keyEng.append(caseDown);
     keyEng.append(caseUp);
     keyEng.append(caps);
+
+    keyRu.append(caseRuDown);
+    //keyRu.append(caseUp);
+    //keyRu.append(caps);
+
     key.append(keyEng);
+    key.append(keyRu);
     whichRow.append(key);
   }
 }
@@ -89,6 +115,7 @@ const keysDown = document.querySelectorAll(".caseDown");
 const keysUp = document.querySelectorAll(".caseUp");
 const keysCaps = document.querySelectorAll(".caps");
 
+//Обработка нажатий мышкой на маленькие англ буквы
 for (let key of keysDown) {
   key.addEventListener("click", function(event) {
     if (event.target.textContent === 'Tab') {
@@ -123,6 +150,7 @@ for (let key of keysDown) {
   })
 }
 
+//Обработка нажатий мышкой на большие англ буквы
 for (let key of keysUp) {
   key.addEventListener("click", function(event) {
     if (event.target.textContent === 'Tab') {
@@ -157,6 +185,7 @@ for (let key of keysUp) {
   })
 }
 
+//Обработка нажатий мышкой на капсульные англ буквы
 for (let key of keysCaps) {
   key.addEventListener("click", function(event) {
     if (event.target.textContent === 'Tab') {
@@ -191,6 +220,7 @@ for (let key of keysCaps) {
   })
 }
 
+//Обработка нажатий мышкой на кнопки "Shift"
 row4.firstChild.addEventListener("mousedown", function(event) {
   row4.firstChild.classList.add("key-active");
   for (let key of keysDown) {
@@ -228,6 +258,7 @@ row4.lastChild.addEventListener("mouseup", function(event) {
 
 const keys = document.querySelectorAll(".key");
 
+//Добавление hover и active эфектов при наведении и нажатий мышкой на клавиши вирт клавиатуры
 for (let key of keys) {
   key.addEventListener("mouseover", function(event) {
     key.classList.add("key-hover");
@@ -265,24 +296,107 @@ for (let key of keys) {
   })
 }
 
+const engKeys = document.querySelectorAll(".eng");
+const ruKeys = document.querySelectorAll(".ru");
+
+//Обработка нажатий клавиш на физической клавиатуре
 addEventListener("keydown", function(event) {
+
+  if (event.key === "Alt") {
+    //console.log("Seen")
+    engKeys.forEach(e => e.classList.toggle("hidden"))
+    ruKeys.forEach(e => e.classList.toggle("hidden"))
+  }
+
+  //console.log(engKeys[0].classList)
+  if (engKeys[0].classList.contains("hidden")) {
+
+  }
+
   for (let key of keys) {
+    event.preventDefault();
+
     if (event.key === "Tab") {
-      event.preventDefault();
+      row2.firstChild.classList.add("key-active");
       textArea.value += "    ";
       return;
     }
+
+    if (event.key === "Delete") {
+      row2.lastChild.classList.add("key-active");
+      return;
+    }
+
+    if (event.key === "Meta" || event.key === "Windows") {
+      row5.childNodes[1].classList.add("key-active");
+      return;
+    }
+
+    if (event.key === "Alt") {
+      row5.childNodes[2].classList.add("key-active");
+      row5.childNodes[4].classList.add("key-active");
+      return;
+    }
+
+    if (event.key === "Shift") {
+      for (let key of keysDown) {
+        row4.firstChild.classList.add("key-active");
+        row4.lastChild.classList.add("key-active");
+        key.classList.add("hidden");
+      }
+      for (let key of keysUp) {
+      key.classList.remove("hidden");
+      }
+      return;
+    }
+
+    if (event.key === "Backspace") {
+      row1.lastChild.classList.add("key-active");
+      textArea.value = textArea.value.slice(0,-1);
+      return;
+    }
+
     if (event.key === key.firstChild.firstChild.textContent) {
       key.classList.add("key-active");
     }
+    if (event.key === key.firstChild.lastChild.textContent) {
+      key.classList.add("key-active");
+    }
   }
+
+  //if (key.firstChild.firstChild.classList.)
   textArea.value += event.key;
 })
 
+//Обработка отпусканий клавиш на физической клавиатуре
 addEventListener("keyup", function(event) {
   for (let key of keys) {
     if (event.key === key.firstChild.firstChild.textContent) {
       key.classList.remove("key-active");
+    }
+    if (event.key === key.firstChild.lastChild.textContent) {
+      key.classList.remove("key-active");
+    }
+
+    if (event.key === "Delete") {
+      row2.lastChild.classList.remove("key-active");
+      return;
+    }
+
+    if (event.key === "Meta" || event.key === "Windows") {
+      row5.childNodes[1].classList.remove("key-active");
+    }
+
+    if (event.key === "Shift") {
+      row4.firstChild.classList.remove("key-active");
+      row4.lastChild.classList.remove("key-active");
+      for (let key of keysDown) {
+        key.classList.remove("hidden");
+      }
+      for (let key of keysUp) {
+      key.classList.add("hidden");
+      }
+      return;
     }
   }
 })
