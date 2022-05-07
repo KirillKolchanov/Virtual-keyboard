@@ -37,25 +37,31 @@ lowerEnglishArr = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', 
      ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Del'],
       ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter'],
        ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '↑', 'Shift'],
-        ['Ctrl', 'Win', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
+        ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
 upperEnglishArr = [['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace'],
       ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'Y', 'I', 'O', 'P', '{', '}', '|', 'Del'],
        ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter'],
         ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '↑', 'Shift'],
-         ['Ctrl', 'Win', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
+         ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
 capsEnglishArr = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
       ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'Y', 'I', 'O', 'P', '[', ']', '\\', 'Del'],
        ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\\', 'Enter'],
         ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '↑', 'Shift'],
-         ['Ctrl', 'Win','Alt', ' ', 'Alt', '←', '↓', '→','Ctrl']];
+         ['Ctrl', 'CMD','Alt', ' ', 'Alt', '←', '↓', '→','Ctrl']];
 
 lowerRussianArr = [['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
       ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del'],
        ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', "э", 'Enter'],
         ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '↑', 'Shift'],
-         ['Ctrl', 'Win', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
+         ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
+
+upperRussianArr = [['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
+      ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/', 'Del'],
+       ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter'],
+        ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '↑', 'Shift'],
+         ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
 //Функция для создания клавиш для поределенного ряда клавиатуры
 function addKeys (keysInRows, whichRow, whichArr) {
@@ -86,17 +92,22 @@ function addKeys (keysInRows, whichRow, whichArr) {
     let keyRu = document.createElement("span");
     keyRu.classList.add("ru", "hidden");
 
-    //Добавление маленькой англ раскладки
+    //Добавление маленькой русс раскладки
     let caseRuDown = document.createElement("span");
     caseRuDown.classList.add("caseDown");
     caseRuDown.textContent = lowerRussianArr[whichArr][i];
+
+    //Добавление большой русс раскладки
+    let caseRuUp = document.createElement("span");
+    caseRuUp.classList.add("caseUp", 'hidden');
+    caseRuUp.textContent = upperRussianArr[whichArr][i];
 
     keyEng.append(caseDown);
     keyEng.append(caseUp);
     keyEng.append(caps);
 
     keyRu.append(caseRuDown);
-    //keyRu.append(caseUp);
+    keyRu.append(caseRuUp);
     //keyRu.append(caps);
 
     key.append(keyEng);
@@ -302,15 +313,10 @@ const ruKeys = document.querySelectorAll(".ru");
 //Обработка нажатий клавиш на физической клавиатуре
 addEventListener("keydown", function(event) {
 
+  // Переключение языка
   if (event.key === "Alt") {
-    //console.log("Seen")
     engKeys.forEach(e => e.classList.toggle("hidden"))
     ruKeys.forEach(e => e.classList.toggle("hidden"))
-  }
-
-  //console.log(engKeys[0].classList)
-  if (engKeys[0].classList.contains("hidden")) {
-
   }
 
   for (let key of keys) {
@@ -319,6 +325,12 @@ addEventListener("keydown", function(event) {
     if (event.key === "Tab") {
       row2.firstChild.classList.add("key-active");
       textArea.value += "    ";
+      return;
+    }
+
+    if (event.key === " ") {
+      row5.childNodes[3].classList.add("key-active");
+      textArea.value += " ";
       return;
     }
 
@@ -356,16 +368,62 @@ addEventListener("keydown", function(event) {
       return;
     }
 
+    if (event.key === "ArrowUp") {
+      row4.childNodes[11].classList.add("key-active");
+      return textArea.value += row4.childNodes[11].firstChild.firstChild.textContent;
+    }
+
+    if (event.key === "ArrowDown") {
+      row5.childNodes[6].classList.add("key-active");
+      return textArea.value += row5.childNodes[6].firstChild.firstChild.textContent;
+    }
+
+    if (event.key === "ArrowLeft") {
+      row5.childNodes[5].classList.add("key-active");
+      return textArea.value += row5.childNodes[5].firstChild.firstChild.textContent;
+    }
+
+    if (event.key === "ArrowRight") {
+      row5.childNodes[7].classList.add("key-active");
+      return textArea.value += row5.childNodes[7].firstChild.firstChild.textContent;
+    }
+
+    if (event.key === "Enter") {
+      row3.lastChild.classList.add("key-active");
+      return textArea.value += '\n';
+    }
+
     if (event.key === key.firstChild.firstChild.textContent) {
       key.classList.add("key-active");
     }
-    if (event.key === key.firstChild.lastChild.textContent) {
+    if (event.key === key.firstChild.childNodes[1].textContent) {
       key.classList.add("key-active");
     }
   }
 
-  //if (key.firstChild.firstChild.classList.)
-  textArea.value += event.key;
+  //Вставка англ больших и маленьких букв
+  if (keys[0].lastChild.classList.contains("hidden")) {
+    textArea.value += event.key;
+  }
+
+  //Вставка русс больших и маленьких букв
+  if (keys[0].firstChild.classList.contains("hidden")) {
+    for (let key of keys) {
+
+      // Вставка маленьких русс букв
+      if (key.firstChild.firstChild.textContent === event.key) {
+        textArea.value += key.lastChild.firstChild.textContent;
+      }
+
+      // Вставка больших русс букв
+      if (key.lastChild.firstChild.classList.contains('hidden')) {
+        if (key.firstChild.childNodes[1].textContent === event.key) {
+          textArea.value += key.lastChild.lastChild.textContent;
+        }
+      }
+    }
+  }
+
 })
 
 //Обработка отпусканий клавиш на физической клавиатуре
@@ -374,7 +432,7 @@ addEventListener("keyup", function(event) {
     if (event.key === key.firstChild.firstChild.textContent) {
       key.classList.remove("key-active");
     }
-    if (event.key === key.firstChild.lastChild.textContent) {
+    if (event.key === key.firstChild.childNodes[1].textContent) {
       key.classList.remove("key-active");
     }
 
@@ -385,6 +443,23 @@ addEventListener("keyup", function(event) {
 
     if (event.key === "Meta" || event.key === "Windows") {
       row5.childNodes[1].classList.remove("key-active");
+    }
+
+    if (event.key === "ArrowUp") {
+      row4.childNodes[11].classList.remove("key-active");
+    }
+    if (event.key === "ArrowDown") {
+      row5.childNodes[6].classList.remove("key-active");
+    }
+    if (event.key === "ArrowLeft") {
+      row5.childNodes[5].classList.remove("key-active");
+    }
+    if (event.key === "ArrowRight") {
+      row5.childNodes[7].classList.remove("key-active");
+    }
+
+    if (event.key === " ") {
+      row5.childNodes[3].classList.remove("key-active");
     }
 
     if (event.key === "Shift") {

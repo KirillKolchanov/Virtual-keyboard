@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/KirillKolchanov/Virtual-keyboard#readme",
   "devDependencies": {
+    "eslint": "^8.15.0",
     "html-webpack-plugin": "^5.5.0",
     "webpack": "^5.72.0"
   },
