@@ -40,14 +40,14 @@ lowerEnglishArr = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', 
         ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
 upperEnglishArr = [['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace'],
-      ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'Y', 'I', 'O', 'P', '{', '}', '|', 'Del'],
+      ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|', 'Del'],
        ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter'],
         ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '↑', 'Shift'],
          ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
 capsEnglishArr = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-      ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'Y', 'I', 'O', 'P', '[', ']', '\\', 'Del'],
-       ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\\', 'Enter'],
+      ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\', 'Del'],
+       ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 'Enter'],
         ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '↑', 'Shift'],
          ['Ctrl', 'CMD','Alt', ' ', 'Alt', '←', '↓', '→','Ctrl']];
 
@@ -61,6 +61,12 @@ upperRussianArr = [['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_
       ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/', 'Del'],
        ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter'],
         ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '↑', 'Shift'],
+         ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
+
+capsRussianArr = [['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
+      ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\', 'Del'],
+       ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter'],
+        ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', '↑', 'Shift'],
          ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
 //Функция для создания клавиш для поределенного ряда клавиатуры
@@ -102,13 +108,18 @@ function addKeys (keysInRows, whichRow, whichArr) {
     caseRuUp.classList.add("caseUp", 'hidden');
     caseRuUp.textContent = upperRussianArr[whichArr][i];
 
+     //Добавление капслочной англ раскладки
+     let capsRu = document.createElement("span");
+     capsRu.classList.add("caps", "hidden");
+     capsRu.textContent = capsRussianArr[whichArr][i];
+
     keyEng.append(caseDown);
     keyEng.append(caseUp);
     keyEng.append(caps);
 
     keyRu.append(caseRuDown);
     keyRu.append(caseRuUp);
-    //keyRu.append(caps);
+    keyRu.append(capsRu);
 
     key.append(keyEng);
     key.append(keyRu);
@@ -131,6 +142,9 @@ for (let key of keysDown) {
   key.addEventListener("click", function(event) {
     if (event.target.textContent === 'Tab') {
       return textArea.value += "    ";
+    }
+    if (event.target.textContent === 'Enter') {
+      return textArea.value += '\n';
     }
     if (event.target.textContent === 'Backspace') {
       return textArea.value = textArea.value.slice(0, -1);
@@ -312,87 +326,108 @@ const ruKeys = document.querySelectorAll(".ru");
 
 //Обработка нажатий клавиш на физической клавиатуре
 addEventListener("keydown", function(event) {
-
+  event.preventDefault()
+  //console.log(event.key);
   // Переключение языка
   if (event.key === "Alt") {
     engKeys.forEach(e => e.classList.toggle("hidden"))
     ruKeys.forEach(e => e.classList.toggle("hidden"))
   }
 
-  for (let key of keys) {
+  if (event.key === "CapsLock") {
+    for (let key of keys) {
+      key.firstChild.firstChild.classList.add("hidden");
+      //key.firstChild.childNodes[2].classList.add("hidden");
+      key.firstChild.lastChild.classList.remove('hidden');
+
+      key.lastChild.firstChild.classList.add("hidden");
+      //key.lastChild.childNodes[2].classList.add("hidden");
+      key.lastChild.lastChild.classList.remove('hidden');
+    }
+    row3.firstChild.classList.add('key-active');
+    return;
+  }
+
+  if (event.key === " ") {
+    row5.childNodes[3].classList.add("key-active");
+    textArea.value += " ";
+    return;
+  }
+
+  if (event.key === "Delete") {
+    row2.lastChild.classList.add("key-active");
+    return;
+  }
+
+  if (event.key === "Meta" || event.key === "Windows") {
+    row5.childNodes[1].classList.add("key-active");
+    return;
+  }
+
+  if (event.key === "Alt") {
+    row5.childNodes[2].classList.add("key-active");
+    row5.childNodes[4].classList.add("key-active");
+    return;
+  }
+
+  if (event.key === "Control") {
+    row5.firstChild.classList.add("key-active");
+    row5.lastChild.classList.add("key-active");
+    return;
+  }
+
+  if (event.key === "Shift") {
+    for (let key of keysDown) {
+      row4.firstChild.classList.add("key-active");
+      row4.lastChild.classList.add("key-active");
+      key.classList.add("hidden");
+    }
+    for (let key of keysUp) {
+    key.classList.remove("hidden");
+    }
+    return;
+  }
+
+  if (event.key === "Tab") {
     event.preventDefault();
+    row2.firstChild.classList.add("key-active");
+    textArea.value += "    ";
+    return;
+  }
 
-    if (event.key === "Tab") {
-      row2.firstChild.classList.add("key-active");
-      textArea.value += "    ";
-      return;
-    }
+  if (event.key === "Backspace") {
+    row1.lastChild.classList.add("key-active");
+    textArea.value = textArea.value.slice(0,-1);
+    return;
+  }
 
-    if (event.key === " ") {
-      row5.childNodes[3].classList.add("key-active");
-      textArea.value += " ";
-      return;
-    }
+  if (event.key === "ArrowUp") {
+    row4.childNodes[11].classList.add("key-active");
+    return textArea.value += row4.childNodes[11].firstChild.firstChild.textContent;
+  }
 
-    if (event.key === "Delete") {
-      row2.lastChild.classList.add("key-active");
-      return;
-    }
+  if (event.key === "ArrowDown") {
+    row5.childNodes[6].classList.add("key-active");
+    return textArea.value += row5.childNodes[6].firstChild.firstChild.textContent;
+  }
 
-    if (event.key === "Meta" || event.key === "Windows") {
-      row5.childNodes[1].classList.add("key-active");
-      return;
-    }
+  if (event.key === "ArrowLeft") {
+    row5.childNodes[5].classList.add("key-active");
+    return textArea.value += row5.childNodes[5].firstChild.firstChild.textContent;
+  }
 
-    if (event.key === "Alt") {
-      row5.childNodes[2].classList.add("key-active");
-      row5.childNodes[4].classList.add("key-active");
-      return;
-    }
+  if (event.key === "ArrowRight") {
+    row5.childNodes[7].classList.add("key-active");
+    return textArea.value += row5.childNodes[7].firstChild.firstChild.textContent;
+  }
 
-    if (event.key === "Shift") {
-      for (let key of keysDown) {
-        row4.firstChild.classList.add("key-active");
-        row4.lastChild.classList.add("key-active");
-        key.classList.add("hidden");
-      }
-      for (let key of keysUp) {
-      key.classList.remove("hidden");
-      }
-      return;
-    }
+  if (event.key === "Enter") {
+    row3.lastChild.classList.add("key-active");
+    return textArea.value += '\n';
+  }
 
-    if (event.key === "Backspace") {
-      row1.lastChild.classList.add("key-active");
-      textArea.value = textArea.value.slice(0,-1);
-      return;
-    }
-
-    if (event.key === "ArrowUp") {
-      row4.childNodes[11].classList.add("key-active");
-      return textArea.value += row4.childNodes[11].firstChild.firstChild.textContent;
-    }
-
-    if (event.key === "ArrowDown") {
-      row5.childNodes[6].classList.add("key-active");
-      return textArea.value += row5.childNodes[6].firstChild.firstChild.textContent;
-    }
-
-    if (event.key === "ArrowLeft") {
-      row5.childNodes[5].classList.add("key-active");
-      return textArea.value += row5.childNodes[5].firstChild.firstChild.textContent;
-    }
-
-    if (event.key === "ArrowRight") {
-      row5.childNodes[7].classList.add("key-active");
-      return textArea.value += row5.childNodes[7].firstChild.firstChild.textContent;
-    }
-
-    if (event.key === "Enter") {
-      row3.lastChild.classList.add("key-active");
-      return textArea.value += '\n';
-    }
-
+  // Реализация отзывчивости виртуальной клавы на физическую
+  for (let key of keys) {
     if (event.key === key.firstChild.firstChild.textContent) {
       key.classList.add("key-active");
     }
@@ -411,19 +446,31 @@ addEventListener("keydown", function(event) {
     for (let key of keys) {
 
       // Вставка маленьких русс букв
-      if (key.firstChild.firstChild.textContent === event.key) {
-        textArea.value += key.lastChild.firstChild.textContent;
+      if (keys[0].lastChild.childNodes[1].classList.contains('hidden') && keys[0].lastChild.lastChild.classList.contains('hidden')) {
+        if (key.firstChild.firstChild.textContent === event.key) {
+          console.log(event.key, "1");
+          textArea.value += key.lastChild.firstChild.textContent;
+        }
       }
 
       // Вставка больших русс букв
-      if (key.lastChild.firstChild.classList.contains('hidden')) {
+      if (keys[0].lastChild.firstChild.classList.contains('hidden') && keys[0].lastChild.lastChild.classList.contains('hidden')) {
+        console.log(event.key, "2")
         if (key.firstChild.childNodes[1].textContent === event.key) {
+          console.log(event.key, "2-2")
+          textArea.value += key.lastChild.childNodes[1].textContent;
+        }
+      }
+
+      // Вставка капс русс букв
+      if (keys[0].lastChild.firstChild.classList.contains('hidden') && keys[0].lastChild.childNodes[1].classList.contains('hidden')) {
+        if (key.firstChild.lastChild.textContent === event.key) {
+          console.log(event.key, "3");
           textArea.value += key.lastChild.lastChild.textContent;
         }
       }
     }
   }
-
 })
 
 //Обработка отпусканий клавиш на физической клавиатуре
@@ -438,6 +485,26 @@ addEventListener("keyup", function(event) {
 
     if (event.key === "Delete") {
       row2.lastChild.classList.remove("key-active");
+      return;
+    }
+
+    if (event.key === "Control") {
+      row5.firstChild.classList.remove("key-active");
+      row5.lastChild.classList.remove("key-active");
+      return;
+    }
+
+    if (event.key === "CapsLock") {
+      for (let key of keys) {
+        key.firstChild.firstChild.classList.remove("hidden");
+        //key.firstChild.childNodes[2].classList.remove("hidden");
+        key.firstChild.lastChild.classList.add('hidden');
+
+        key.lastChild.firstChild.classList.remove("hidden");
+        //key.lastChild.childNodes[2].classList.remove("hidden");
+        key.lastChild.lastChild.classList.add('hidden');
+      }
+      row3.firstChild.classList.remove('key-active');
       return;
     }
 
