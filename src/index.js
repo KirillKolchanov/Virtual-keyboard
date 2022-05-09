@@ -1,3 +1,16 @@
+/* eslint-disable import/extensions */
+import constants from './constants.js';
+
+const {
+  lowerEnglishArr,
+  upperEnglishArr,
+  capsEnglishArr,
+  shiftCapsEnglishArr,
+  lowerRussianArr,
+  upperRussianArr,
+  capsRussianArr,
+  shiftCapsRussianArr,
+} = constants;
 const selectedLanguage = localStorage.getItem('lang');
 
 if (!selectedLanguage) {
@@ -44,54 +57,6 @@ title.textContent = 'RSS Виртуальная клавиатура';
 keyboard.append(row1, row2, row3, row4, row5);
 description.innerText = 'Use key "ALT" to switch input language \nCheck with the English keyboard layout in the system \nMade in Mac OS 💻';
 contact.innerText = 'Contact with me please, my discord: KirillKolchanov#2036 \nI would like to correct the mistakes ☺️';
-
-const lowerEnglishArr = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-  ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Del'],
-  ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter'],
-  ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '↑', 'Shift'],
-  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
-
-const upperEnglishArr = [['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace'],
-  ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|', 'Del'],
-  ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter'],
-  ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '↑', 'Shift'],
-  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
-
-const capsEnglishArr = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-  ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\', 'Del'],
-  ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 'Enter'],
-  ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '↑', 'Shift'],
-  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
-
-const shiftCapsEnglishArr = [['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace'],
-  ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|', 'Del'],
-  ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':', '"', 'Enter'],
-  ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?', '↑', 'Shift'],
-  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
-
-const lowerRussianArr = [['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-  ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del'],
-  ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
-  ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '↑', 'Shift'],
-  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
-
-const upperRussianArr = [['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
-  ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/', 'Del'],
-  ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter'],
-  ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '↑', 'Shift'],
-  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
-
-const capsRussianArr = [['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-  ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\', 'Del'],
-  ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter'],
-  ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', '↑', 'Shift'],
-  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
-
-const shiftCapsRussianArr = [['ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
-  ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '/', 'Del'],
-  ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
-  ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ',', '↑', 'Shift'],
-  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
 // Функция для создания клавиш для поределенного ряда клавиатуры
 function addKeys(keysInRows, whichRow, whichArr) {
