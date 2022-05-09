@@ -3,6 +3,7 @@ const selectedLanguage = localStorage.getItem('lang');
 if (!selectedLanguage) {
   localStorage.setItem('lang', 'en');
 }
+// console.log(selectedLanguage);
 
 const wrapper = document.createElement('div');
 const title = document.createElement('p');
@@ -42,7 +43,7 @@ document.body.append(wrapper);
 wrapper.append(title, textArea, keyboard, description, contact);
 title.textContent = 'RSS Виртуальная клавиатура';
 keyboard.append(row1, row2, row3, row4, row5);
-description.innerText = 'Use key "ALT" to switch input language \nMade in Mac OS 💻';
+description.innerText = 'Use key "ALT" to switch input language \nCheck with the English keyboard layout in the system \nMade in Mac OS 💻';
 contact.innerText = 'Contact with me please, my discord: KirillKolchanov#2036 \nI would like to correct the mistakes ☺️';
 
 const lowerEnglishArr = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
@@ -63,6 +64,12 @@ const capsEnglishArr = [['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 
   ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '↑', 'Shift'],
   ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
+const shiftCapsEnglishArr = [['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace'],
+  ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|', 'Del'],
+  ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':', '"', 'Enter'],
+  ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?', '↑', 'Shift'],
+  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
+
 const lowerRussianArr = [['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
   ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del'],
   ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
@@ -79,6 +86,12 @@ const capsRussianArr = [['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
   ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\', 'Del'],
   ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter'],
   ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', '↑', 'Shift'],
+  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
+
+const shiftCapsRussianArr = [['ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
+  ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '/', 'Del'],
+  ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
+  ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ',', '↑', 'Shift'],
   ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
 // Функция для создания клавиш для поределенного ряда клавиатуры
@@ -106,6 +119,11 @@ function addKeys(keysInRows, whichRow, whichArr) {
     caps.classList.add('caps', 'hidden');
     caps.textContent = capsEnglishArr[whichArr][i];
 
+    // Добавление шифт-капслочной англ раскладки
+    const shiftCaps = document.createElement('span');
+    shiftCaps.classList.add('shiftCaps', 'hidden');
+    shiftCaps.textContent = shiftCapsEnglishArr[whichArr][i];
+
     // добавление русс раскладки (обертка)
     const keyRu = document.createElement('span');
     keyRu.classList.add('ru', 'hidden');
@@ -125,16 +143,16 @@ function addKeys(keysInRows, whichRow, whichArr) {
     capsRu.classList.add('caps', 'hidden');
     capsRu.textContent = capsRussianArr[whichArr][i];
 
-    keyEng.append(caseDown);
-    keyEng.append(caseUp);
-    keyEng.append(caps);
+    // Добавление шифт-капслочной англ раскладки
+    const ShiftCapsRu = document.createElement('span');
+    ShiftCapsRu.classList.add('shiftCaps', 'hidden');
+    ShiftCapsRu.textContent = capsRussianArr[whichArr][i];
 
-    keyRu.append(caseRuDown);
-    keyRu.append(caseRuUp);
-    keyRu.append(capsRu);
+    keyEng.append(caseDown, caseUp, caps, shiftCaps);
 
-    key.append(keyEng);
-    key.append(keyRu);
+    keyRu.append(caseRuDown, caseRuUp, capsRu, ShiftCapsRu);
+
+    key.append(keyEng, keyRu);
     whichRow.append(key);
   }
 }
@@ -152,6 +170,17 @@ const keysCaps = document.querySelectorAll('.caps');
 const keys = document.querySelectorAll('.key');
 const engKeys = document.querySelectorAll('.eng');
 const ruKeys = document.querySelectorAll('.ru');
+
+const caps = document.querySelectorAll('.caps');
+const shiftCaps = document.querySelectorAll('.shiftCaps');
+
+// if (localStorage.getItem('lang', 'en')) {
+//   engKeys.forEach((e) => e.classList.remove('hidden'));
+//   ruKeys.forEach((e) => e.classList.add('hidden'));
+// } else {
+//   engKeys.forEach((e) => e.classList.add('hidden'));
+//   ruKeys.forEach((e) => e.classList.remove('hidden'));
+// }
 
 // Обработка нажатий мышкой на маленькие англ буквы
 for (let i = 0; i < keysDown.length; i++) {
@@ -390,23 +419,36 @@ for (let i = 0; i < keys.length; i++) {
 document.addEventListener('keydown', (event) => {
   event.preventDefault();
 
+  // // Переключение языка
+  // if (event.key === 'Alt') {
+  //   if (localStorage.getItem('lang', 'en')) {
+  //     engKeys.forEach((e) => e.classList.add('hidden'));
+  //     ruKeys.forEach((e) => e.classList.remove('hidden'));
+  //     localStorage.setItem('lang', 'ru');
+  //   } else {
+  //     engKeys.forEach((e) => e.classList.remove('hidden'));
+  //     ruKeys.forEach((e) => e.classList.add('hidden'));
+  //     localStorage.setItem('lang', 'en');
+  //   }
+  //   // engKeys.forEach((e) => e.classList.toggle('hidden'));
+  //   // ruKeys.forEach((e) => e.classList.toggle('hidden'));
+  //   // localStorage.getItem('lang') === 'en' ? localStorage.setItem('lang', 'ru') : localStorage.setItem('lang', 'en');
+  // }
+
   // Переключение языка
   if (event.key === 'Alt') {
     engKeys.forEach((e) => e.classList.toggle('hidden'));
     ruKeys.forEach((e) => e.classList.toggle('hidden'));
-    // localStorage.getItem('lang') === 'en' ? localStorage.setItem('lang', 'ru') : localStorage.setItem('lang', 'en');
   }
 
   if (event.key === 'CapsLock') {
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       key.firstChild.firstChild.classList.add('hidden');
-      // key.firstChild.childNodes[2].classList.add("hidden");
-      key.firstChild.lastChild.classList.remove('hidden');
+      key.firstChild.childNodes[2].classList.remove('hidden');
 
       key.lastChild.firstChild.classList.add('hidden');
-      // key.lastChild.childNodes[2].classList.add("hidden");
-      key.lastChild.lastChild.classList.remove('hidden');
+      key.lastChild.childNodes[2].classList.remove('hidden');
     }
     row3.firstChild.classList.add('key-active');
     return;
@@ -441,6 +483,17 @@ document.addEventListener('keydown', (event) => {
   }
 
   if (event.key === 'Shift') {
+    if (!row3.firstChild.firstChild.childNodes[2].classList.contains('hidden')) {
+      // keysUp.forEach(e => e.classList.add('hidden'));
+      keysDown.forEach((e) => e.classList.add('hidden'));
+      caps.forEach((e) => e.classList.add('hidden'));
+      for (let k = 0; k < shiftCaps.length; k++) {
+        // console.log('Here');
+        const key = shiftCaps[k];
+        key.classList.remove('hidden');
+      }
+      return;
+    }
     for (let i = 0; i < keysDown.length; i++) {
       const key = keysDown[i];
       row4.firstChild.classList.add('key-active');
@@ -518,23 +571,25 @@ document.addEventListener('keydown', (event) => {
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       // Вставка маленьких русс букв
-      if (keys[0].lastChild.childNodes[1].classList.contains('hidden') && keys[0].lastChild.lastChild.classList.contains('hidden')) {
+      if (keys[0].lastChild.childNodes[1].classList.contains('hidden') && keys[0].lastChild.childNodes[2].classList.contains('hidden')) {
         if (key.firstChild.firstChild.textContent === event.key) {
           textArea.value += key.lastChild.firstChild.textContent;
         }
       }
 
       // Вставка больших русс букв
-      if (keys[0].lastChild.firstChild.classList.contains('hidden') && keys[0].lastChild.lastChild.classList.contains('hidden')) {
-        if (key.firstChild.childNodes[1].textContent === event.key) {
+      if (keys[0].lastChild.firstChild.classList.contains('hidden') && keys[0].lastChild.childNodes[2].classList.contains('hidden')) {
+        if (key.firstChild.childNodes[1].textContent === event.key
+          || key.firstChild.childNodes[0].textContent === event.key) {
           textArea.value += key.lastChild.childNodes[1].textContent;
         }
       }
 
       // Вставка капс русс букв
       if (keys[0].lastChild.firstChild.classList.contains('hidden') && keys[0].lastChild.childNodes[1].classList.contains('hidden')) {
-        if (key.firstChild.lastChild.textContent === event.key) {
-          textArea.value += key.lastChild.lastChild.textContent;
+        if (key.firstChild.firstChild.textContent === event.key
+          || key.firstChild.childNodes[2].textContent === event.key) {
+          textArea.value += key.lastChild.childNodes[2].textContent;
         }
       }
     }
@@ -567,10 +622,10 @@ document.addEventListener('keyup', (event) => {
       for (let j = 0; j < keys.length; j++) {
         const keyCaps = keys[j];
         keyCaps.firstChild.firstChild.classList.remove('hidden');
-        keyCaps.firstChild.lastChild.classList.add('hidden');
+        keyCaps.firstChild.childNodes[2].classList.add('hidden');
 
         keyCaps.lastChild.firstChild.classList.remove('hidden');
-        keyCaps.lastChild.lastChild.classList.add('hidden');
+        keyCaps.lastChild.childNodes[2].classList.add('hidden');
       }
       row3.firstChild.classList.remove('key-active');
       return;
@@ -598,6 +653,14 @@ document.addEventListener('keyup', (event) => {
     }
 
     if (event.key === 'Shift') {
+      if (!row3.firstChild.firstChild.childNodes[3].classList.contains('hidden')) {
+        caps.forEach((e) => e.classList.remove('hidden'));
+        for (let k = 0; k < shiftCaps.length; k++) {
+          const keyShiftCaps = shiftCaps[k];
+          keyShiftCaps.classList.add('hidden');
+        }
+        return;
+      }
       row4.firstChild.classList.remove('key-active');
       row4.lastChild.classList.remove('key-active');
       for (let j = 0; j < keysDown.length; j++) {
