@@ -1,9 +1,8 @@
-// const selectedLanguage = localStorage.getItem('lang');
+const selectedLanguage = localStorage.getItem('lang');
 
-// if (!selectedLanguage) {
-//   localStorage.setItem('lang', 'en');
-// }
-// console.log(selectedLanguage);
+if (!selectedLanguage) {
+  localStorage.setItem('lang', 'en');
+}
 
 const wrapper = document.createElement('div');
 const title = document.createElement('p');
@@ -88,11 +87,12 @@ const capsRussianArr = [['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
   ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', '↑', 'Shift'],
   ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
-const shiftCapsRussianArr = [['ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
-  ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '/', 'Del'],
-  ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
-  ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ',', '↑', 'Shift'],
-  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
+// const shiftCapsRussianArr
+// = [['ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
+//   ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '/', 'Del'],
+//   ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
+//   ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ',', '↑', 'Shift'],
+//   ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
 // Функция для создания клавиш для поределенного ряда клавиатуры
 function addKeys(keysInRows, whichRow, whichArr) {
@@ -174,13 +174,13 @@ const ruKeys = document.querySelectorAll('.ru');
 const caps = document.querySelectorAll('.caps');
 const shiftCaps = document.querySelectorAll('.shiftCaps');
 
-// if (localStorage.getItem('lang', 'en')) {
-//   engKeys.forEach((e) => e.classList.remove('hidden'));
-//   ruKeys.forEach((e) => e.classList.add('hidden'));
-// } else {
-//   engKeys.forEach((e) => e.classList.add('hidden'));
-//   ruKeys.forEach((e) => e.classList.remove('hidden'));
-// }
+if (localStorage.getItem('lang') === 'en') {
+  engKeys.forEach((e) => e.classList.remove('hidden'));
+  ruKeys.forEach((e) => e.classList.add('hidden'));
+} else {
+  engKeys.forEach((e) => e.classList.add('hidden'));
+  ruKeys.forEach((e) => e.classList.remove('hidden'));
+}
 
 // Обработка нажатий мышкой на маленькие англ буквы
 for (let i = 0; i < keysDown.length; i++) {
@@ -202,9 +202,6 @@ for (let i = 0; i < keysDown.length; i++) {
       return null;
     }
     if (event.target.textContent === 'Ctrl') {
-      return null;
-    }
-    if (event.target.textContent === 'Win') {
       return null;
     }
     if (event.target.textContent === 'Del') {
@@ -305,9 +302,6 @@ for (let i = 0; i < keysCaps.length; i++) {
       return null;
     }
     if (event.target.textContent === 'Ctrl') {
-      return null;
-    }
-    if (event.target.textContent === 'Win') {
       return null;
     }
     // Переключение языка
@@ -419,26 +413,17 @@ for (let i = 0; i < keys.length; i++) {
 document.addEventListener('keydown', (event) => {
   event.preventDefault();
 
-  // // Переключение языка
-  // if (event.key === 'Alt') {
-  //   if (localStorage.getItem('lang', 'en')) {
-  //     engKeys.forEach((e) => e.classList.add('hidden'));
-  //     ruKeys.forEach((e) => e.classList.remove('hidden'));
-  //     localStorage.setItem('lang', 'ru');
-  //   } else {
-  //     engKeys.forEach((e) => e.classList.remove('hidden'));
-  //     ruKeys.forEach((e) => e.classList.add('hidden'));
-  //     localStorage.setItem('lang', 'en');
-  //   }
-  //   // engKeys.forEach((e) => e.classList.toggle('hidden'));
-  //   // ruKeys.forEach((e) => e.classList.toggle('hidden'));
-  //   // localStorage.getItem('lang') === 'en' ? localStorage.setItem('lang', 'ru') : localStorage.setItem('lang', 'en');
-  // }
-
   // Переключение языка
   if (event.key === 'Alt') {
-    engKeys.forEach((e) => e.classList.toggle('hidden'));
-    ruKeys.forEach((e) => e.classList.toggle('hidden'));
+    if (localStorage.getItem('lang') === 'en') {
+      engKeys.forEach((e) => e.classList.add('hidden'));
+      ruKeys.forEach((e) => e.classList.remove('hidden'));
+      localStorage.setItem('lang', 'ru');
+    } else {
+      engKeys.forEach((e) => e.classList.remove('hidden'));
+      ruKeys.forEach((e) => e.classList.add('hidden'));
+      localStorage.setItem('lang', 'en');
+    }
   }
 
   if (event.key === 'CapsLock') {
@@ -465,7 +450,7 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
-  if (event.key === 'Meta' || event.key === 'Windows') {
+  if (event.key === 'Meta') {
     row5.childNodes[1].classList.add('key-active');
     return;
   }
@@ -631,7 +616,7 @@ document.addEventListener('keyup', (event) => {
       return;
     }
 
-    if (event.key === 'Meta' || event.key === 'Windows') {
+    if (event.key === 'Meta') {
       row5.childNodes[1].classList.remove('key-active');
     }
 
