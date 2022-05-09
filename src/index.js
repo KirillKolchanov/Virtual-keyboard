@@ -603,6 +603,10 @@ document.addEventListener('keyup', (event) => {
       return;
     }
 
+    if (event.key === 'CapsLock') {
+      return;
+    }
+
     // if (event.key === 'CapsLock') {
     //   for (let j = 0; j < keys.length; j++) {
     //     const keyCaps = keys[j];
