@@ -87,12 +87,11 @@ const capsRussianArr = [['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
   ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', '↑', 'Shift'],
   ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
-// const shiftCapsRussianArr
-// = [['ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
-//   ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '/', 'Del'],
-//   ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
-//   ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ',', '↑', 'Shift'],
-//   ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
+const shiftCapsRussianArr = [['ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
+  ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '/', 'Del'],
+  ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
+  ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ',', '↑', 'Shift'],
+  ['Ctrl', 'CMD', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl']];
 
 // Функция для создания клавиш для поределенного ряда клавиатуры
 function addKeys(keysInRows, whichRow, whichArr) {
@@ -146,7 +145,7 @@ function addKeys(keysInRows, whichRow, whichArr) {
     // Добавление шифт-капслочной англ раскладки
     const ShiftCapsRu = document.createElement('span');
     ShiftCapsRu.classList.add('shiftCaps', 'hidden');
-    ShiftCapsRu.textContent = capsRussianArr[whichArr][i];
+    ShiftCapsRu.textContent = shiftCapsRussianArr[whichArr][i];
 
     keyEng.append(caseDown, caseUp, caps, shiftCaps);
 
@@ -469,11 +468,9 @@ document.addEventListener('keydown', (event) => {
 
   if (event.key === 'Shift') {
     if (!row3.firstChild.firstChild.childNodes[2].classList.contains('hidden')) {
-      // keysUp.forEach(e => e.classList.add('hidden'));
       keysDown.forEach((e) => e.classList.add('hidden'));
       caps.forEach((e) => e.classList.add('hidden'));
       for (let k = 0; k < shiftCaps.length; k++) {
-        // console.log('Here');
         const key = shiftCaps[k];
         key.classList.remove('hidden');
       }
@@ -607,19 +604,6 @@ document.addEventListener('keyup', (event) => {
       return;
     }
 
-    // if (event.key === 'CapsLock') {
-    //   for (let j = 0; j < keys.length; j++) {
-    //     const keyCaps = keys[j];
-    //     keyCaps.firstChild.firstChild.classList.remove('hidden');
-    //     keyCaps.firstChild.childNodes[2].classList.add('hidden');
-
-    //     keyCaps.lastChild.firstChild.classList.remove('hidden');
-    //     keyCaps.lastChild.childNodes[2].classList.add('hidden');
-    //   }
-    //   // row3.firstChild.classList.remove('key-active');
-    //   return;
-    // }
-
     if (event.key === 'Meta') {
       row5.childNodes[1].classList.remove('key-active');
     }
@@ -643,11 +627,9 @@ document.addEventListener('keyup', (event) => {
 
     if (event.key === 'Shift') {
       if (!row3.firstChild.firstChild.childNodes[3].classList.contains('hidden')) {
+        keysDown.forEach((e) => e.classList.add('hidden'));
         caps.forEach((e) => e.classList.remove('hidden'));
-        for (let k = 0; k < shiftCaps.length; k++) {
-          const keyShiftCaps = shiftCaps[k];
-          keyShiftCaps.classList.add('hidden');
-        }
+        shiftCaps.forEach((e) => e.classList.add('hidden'));
         return;
       }
       row4.firstChild.classList.remove('key-active');
@@ -660,7 +642,6 @@ document.addEventListener('keyup', (event) => {
         const keyUp = keysUp[k];
         keyUp.classList.add('hidden');
       }
-      return;
     }
   }
 });
