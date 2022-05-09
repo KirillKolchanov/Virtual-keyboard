@@ -429,13 +429,13 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'CapsLock') {
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
-      key.firstChild.firstChild.classList.add('hidden');
-      key.firstChild.childNodes[2].classList.remove('hidden');
+      key.firstChild.firstChild.classList.toggle('hidden');
+      key.firstChild.childNodes[2].classList.toggle('hidden');
 
-      key.lastChild.firstChild.classList.add('hidden');
-      key.lastChild.childNodes[2].classList.remove('hidden');
+      key.lastChild.firstChild.classList.toggle('hidden');
+      key.lastChild.childNodes[2].classList.toggle('hidden');
     }
-    row3.firstChild.classList.add('key-active');
+    row3.firstChild.classList.toggle('key-active');
     return;
   }
 
@@ -603,18 +603,18 @@ document.addEventListener('keyup', (event) => {
       return;
     }
 
-    if (event.key === 'CapsLock') {
-      for (let j = 0; j < keys.length; j++) {
-        const keyCaps = keys[j];
-        keyCaps.firstChild.firstChild.classList.remove('hidden');
-        keyCaps.firstChild.childNodes[2].classList.add('hidden');
+    // if (event.key === 'CapsLock') {
+    //   for (let j = 0; j < keys.length; j++) {
+    //     const keyCaps = keys[j];
+    //     keyCaps.firstChild.firstChild.classList.remove('hidden');
+    //     keyCaps.firstChild.childNodes[2].classList.add('hidden');
 
-        keyCaps.lastChild.firstChild.classList.remove('hidden');
-        keyCaps.lastChild.childNodes[2].classList.add('hidden');
-      }
-      row3.firstChild.classList.remove('key-active');
-      return;
-    }
+    //     keyCaps.lastChild.firstChild.classList.remove('hidden');
+    //     keyCaps.lastChild.childNodes[2].classList.add('hidden');
+    //   }
+    //   // row3.firstChild.classList.remove('key-active');
+    //   return;
+    // }
 
     if (event.key === 'Meta') {
       row5.childNodes[1].classList.remove('key-active');
