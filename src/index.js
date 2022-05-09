@@ -1,8 +1,8 @@
-const selectedLanguage = localStorage.getItem('lang');
+// const selectedLanguage = localStorage.getItem('lang');
 
-if (!selectedLanguage) {
-  localStorage.setItem('lang', 'en');
-}
+// if (!selectedLanguage) {
+//   localStorage.setItem('lang', 'en');
+// }
 // console.log(selectedLanguage);
 
 const wrapper = document.createElement('div');
