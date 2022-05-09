@@ -59,6 +59,16 @@ span {
     align-items: center;
 }
 
+.description {
+  font-size: 20px;
+  color: black;
+  text-align: center;
+}
+
+.contact {
+  text-align: center;
+}
+
 .keyboard .key-hover {
   background: #7fccc7;
 }
