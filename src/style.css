@@ -70,6 +70,10 @@ span {
   text-align: center;
 }
 
+.pullrequest {
+  text-align: center;
+}
+
 .keyboard .key-hover {
   background: #7fccc7;
 }

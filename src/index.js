@@ -23,6 +23,8 @@ const textArea = document.createElement('textarea');
 const keyboard = document.createElement('div');
 const description = document.createElement('p');
 const contact = document.createElement('p');
+const pullRequestWrap = document.createElement('p');
+const pullRequest = document.createElement('a');
 
 // Назначение аттрибутов
 wrapper.classList.add('wrapper');
@@ -35,6 +37,8 @@ textArea.setAttribute('autofocus', '');
 keyboard.classList.add('body-keyboard', 'keyboard');
 description.classList.add('description');
 contact.classList.add('contact');
+pullRequestWrap.classList.add('pullrequest');
+pullRequest.href = 'https://github.com/KirillKolchanov/Virtual-keyboard/pull/1';
 
 // Создание рядов клавиатуры
 const row1 = document.createElement('div');
@@ -52,11 +56,13 @@ row5.classList.add('keyboard-row', 'row', 'row5');
 
 // Добавление в документ созданной структуры
 document.body.append(wrapper);
-wrapper.append(title, textArea, keyboard, description, contact);
+wrapper.append(title, textArea, keyboard, description, contact, pullRequestWrap);
+pullRequestWrap.append(pullRequest);
 title.textContent = 'RSS Виртуальная клавиатура';
 keyboard.append(row1, row2, row3, row4, row5);
 description.innerText = 'Use key "ALT" to switch input language \nCheck with the English keyboard layout in the system \nMade in Mac OS 💻';
 contact.innerText = 'Contact with me please, my discord: KirillKolchanov#2036 \nI would like to correct the mistakes ☺️';
+pullRequest.innerText = 'Link to pull quest';
 
 // Функция для создания клавиш для поределенного ряда клавиатуры
 function addKeys(keysInRows, whichRow, whichArr) {
