@@ -175,6 +175,7 @@ for (let i = 0; i < keysDown.length; i++) {
       return null;
     }
     if (event.target.textContent === 'Del') {
+      textArea.value = textArea.value.slice(0, -1);
       return null;
     }
     if (event.target.textContent === 'CMD') {
@@ -189,14 +190,8 @@ for (let i = 0; i < keysDown.length; i++) {
 
     if (event.target.textContent === 'CapsLock') {
       row3.firstChild.classList.add('key-active');
-      for (let j = 0; j < keysCaps.length; j++) {
-        const keyCaps = keysCaps[j];
-        keyCaps.classList.remove('hidden');
-      }
-      for (let k = 0; k < keysDown.length; k++) {
-        const keyDown = keysDown[k];
-        keyDown.classList.add('hidden');
-      }
+      caps.forEach((e) => e.classList.remove('hidden'));
+      keysDown.forEach((e) => e.classList.add('hidden'));
       return null;
     }
     textArea.value += event.target.textContent;
@@ -396,6 +391,22 @@ document.addEventListener('keydown', (event) => {
     }
   }
 
+  if (event.key === 'Shift') {
+    if (event.getModifierState('CapsLock')) {
+      keysDown.forEach((e) => e.classList.add('hidden'));
+      caps.forEach((e) => e.classList.add('hidden'));
+      shiftCaps.forEach((e) => e.classList.remove('hidden'));
+      // return;
+    }
+    if (!event.getModifierState('CapsLock')) {
+      row4.firstChild.classList.add('key-active');
+      row4.lastChild.classList.add('key-active');
+      keysDown.forEach((e) => e.classList.add('hidden'));
+      keysUp.forEach((e) => e.classList.remove('hidden'));
+      return;
+    }
+  }
+
   if (event.key === 'CapsLock') {
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
@@ -409,6 +420,16 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
+  // if (event.getModifierState('CapsLock')) {
+  //   keysDown.forEach((e) => e.classList.add('hidden'));
+  //   caps.forEach((e) => e.classList.remove('hidden'));
+  //   // row3.firstChild.classList.add('key-active');
+  // }
+
+  // if (event.key === 'CapsLock') {
+  //   row3.firstChild.classList.remove('key-active');
+  // }
+
   if (event.key === ' ') {
     row5.childNodes[3].classList.add('key-active');
     textArea.value += ' ';
@@ -417,6 +438,7 @@ document.addEventListener('keydown', (event) => {
 
   if (event.key === 'Delete') {
     row2.lastChild.classList.add('key-active');
+    textArea.value = textArea.value.slice(0, -1);
     return;
   }
 
@@ -434,29 +456,6 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Control') {
     row5.firstChild.classList.add('key-active');
     row5.lastChild.classList.add('key-active');
-    return;
-  }
-
-  if (event.key === 'Shift') {
-    if (!row3.firstChild.firstChild.childNodes[2].classList.contains('hidden')) {
-      keysDown.forEach((e) => e.classList.add('hidden'));
-      caps.forEach((e) => e.classList.add('hidden'));
-      for (let k = 0; k < shiftCaps.length; k++) {
-        const key = shiftCaps[k];
-        key.classList.remove('hidden');
-      }
-      return;
-    }
-    for (let i = 0; i < keysDown.length; i++) {
-      const key = keysDown[i];
-      row4.firstChild.classList.add('key-active');
-      row4.lastChild.classList.add('key-active');
-      key.classList.add('hidden');
-    }
-    for (let j = 0; j < keysUp.length; j++) {
-      const keyUp = keysUp[j];
-      keyUp.classList.remove('hidden');
-    }
     return;
   }
 
@@ -514,17 +513,50 @@ document.addEventListener('keydown', (event) => {
     }
   }
 
-  // Вставка англ больших и маленьких букв
+  // Вставка англ маленьких, больших и капс букв
   if (keys[0].lastChild.classList.contains('hidden')) {
+    if (event.key === 'CapsLock') {
+      return;
+    }
+
+    // Вставка больших англ букв
+    if (!keys[0].firstChild.childNodes[1].classList.contains('hidden')) {
+      if (event.key === 'CapsLock') {
+        return;
+      }
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        if (key.firstChild.childNodes[0].textContent === event.key
+        || key.firstChild.childNodes[1].textContent === event.key) {
+          textArea.value += key.firstChild.childNodes[1].textContent;
+        }
+      }
+      return;
+    }
+
+    // Вставка капс англ букв
+    if (!keys[0].firstChild.childNodes[2].classList.contains('hidden')) {
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        if (key.firstChild.firstChild.textContent === event.key
+        || key.firstChild.childNodes[2].textContent === event.key) {
+          textArea.value += key.firstChild.childNodes[2].textContent;
+        }
+      }
+      return;
+    }
     textArea.value += event.key;
   }
 
-  // Вставка русс больших и маленьких букв
+  // // Вставка русс маленьких, больших и капс букв
   if (keys[0].firstChild.classList.contains('hidden')) {
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       // Вставка маленьких русс букв
       if (keys[0].lastChild.childNodes[1].classList.contains('hidden') && keys[0].lastChild.childNodes[2].classList.contains('hidden')) {
+        if (event.key === 'CapsLock') {
+          return;
+        }
         if (key.firstChild.firstChild.textContent === event.key) {
           textArea.value += key.lastChild.firstChild.textContent;
         }
@@ -532,6 +564,9 @@ document.addEventListener('keydown', (event) => {
 
       // Вставка больших русс букв
       if (keys[0].lastChild.firstChild.classList.contains('hidden') && keys[0].lastChild.childNodes[2].classList.contains('hidden')) {
+        if (event.key === 'CapsLock') {
+          return;
+        }
         if (key.firstChild.childNodes[1].textContent === event.key
           || key.firstChild.childNodes[0].textContent === event.key) {
           textArea.value += key.lastChild.childNodes[1].textContent;
@@ -540,6 +575,9 @@ document.addEventListener('keydown', (event) => {
 
       // Вставка капс русс букв
       if (keys[0].lastChild.firstChild.classList.contains('hidden') && keys[0].lastChild.childNodes[1].classList.contains('hidden')) {
+        if (event.key === 'CapsLock') {
+          return;
+        }
         if (key.firstChild.firstChild.textContent === event.key
           || key.firstChild.childNodes[2].textContent === event.key) {
           textArea.value += key.lastChild.childNodes[2].textContent;
@@ -571,6 +609,29 @@ document.addEventListener('keyup', (event) => {
       return;
     }
 
+    if (event.key === 'Shift') {
+      if (event.getModifierState('CapsLock')) {
+        keysDown.forEach((e) => e.classList.remove('hidden'));
+        caps.forEach((e) => e.classList.remove('hidden'));
+        shiftCaps.forEach((e) => e.classList.add('hidden'));
+        return;
+      }
+      if (!event.getModifierState('CapsLock')) {
+        row4.firstChild.classList.remove('key-active');
+        row4.lastChild.classList.remove('key-active');
+        keysDown.forEach((e) => e.classList.remove('hidden'));
+        keysUp.forEach((e) => e.classList.add('hidden'));
+        return;
+      }
+    }
+
+    // if (event.key === 'CapsLock') {
+    //   caps.forEach((e) => e.classList.add('hidden'));
+    //   if (!event.getModifierState('Shift')) {
+    //     keysDown.forEach((e) => e.classList.remove('hidden'));
+    //   }
+    // }
+
     if (event.key === 'CapsLock') {
       return;
     }
@@ -594,25 +655,6 @@ document.addEventListener('keyup', (event) => {
 
     if (event.key === ' ') {
       row5.childNodes[3].classList.remove('key-active');
-    }
-
-    if (event.key === 'Shift') {
-      if (!row3.firstChild.firstChild.childNodes[3].classList.contains('hidden')) {
-        keysDown.forEach((e) => e.classList.add('hidden'));
-        caps.forEach((e) => e.classList.remove('hidden'));
-        shiftCaps.forEach((e) => e.classList.add('hidden'));
-        return;
-      }
-      row4.firstChild.classList.remove('key-active');
-      row4.lastChild.classList.remove('key-active');
-      for (let j = 0; j < keysDown.length; j++) {
-        const keyDown = keysDown[j];
-        keyDown.classList.remove('hidden');
-      }
-      for (let k = 0; k < keysUp.length; k++) {
-        const keyUp = keysUp[k];
-        keyUp.classList.add('hidden');
-      }
     }
   }
 });
