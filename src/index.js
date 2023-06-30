@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable import/extensions */
 import constants from './constants.js';
 
@@ -58,10 +59,10 @@ row5.classList.add('keyboard-row', 'row', 'row5');
 document.body.append(wrapper);
 wrapper.append(title, textArea, keyboard, description, contact, pullRequestWrap);
 pullRequestWrap.append(pullRequest);
-title.textContent = 'RSS Виртуальная клавиатура';
+title.textContent = 'RSS Virtual keyboard';
 keyboard.append(row1, row2, row3, row4, row5);
-description.innerText = 'Use key "ALT" to switch input language \nCheck with the English keyboard layout in the system \nMade in Mac OS 💻';
-contact.innerText = 'Contact with me please, my discord: KirillKolchanov#2036 \nI would like to correct the mistakes ☺️';
+description.innerText =
+  'Use key "ALT" to switch input language \nCheck with the English keyboard layout in the system \nMade in Mac OS 💻';
 pullRequest.innerText = 'Link to pull quest';
 
 // Функция для создания клавиш для поределенного ряда клавиатуры
@@ -526,8 +527,10 @@ document.addEventListener('keydown', (event) => {
       }
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
-        if (key.firstChild.childNodes[0].textContent === event.key
-        || key.firstChild.childNodes[1].textContent === event.key) {
+        if (
+          key.firstChild.childNodes[0].textContent === event.key ||
+          key.firstChild.childNodes[1].textContent === event.key
+        ) {
           textArea.value += key.firstChild.childNodes[1].textContent;
         }
       }
@@ -538,8 +541,10 @@ document.addEventListener('keydown', (event) => {
     if (!keys[0].firstChild.childNodes[2].classList.contains('hidden')) {
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
-        if (key.firstChild.firstChild.textContent === event.key
-        || key.firstChild.childNodes[2].textContent === event.key) {
+        if (
+          key.firstChild.firstChild.textContent === event.key ||
+          key.firstChild.childNodes[2].textContent === event.key
+        ) {
           textArea.value += key.firstChild.childNodes[2].textContent;
         }
       }
@@ -553,7 +558,10 @@ document.addEventListener('keydown', (event) => {
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       // Вставка маленьких русс букв
-      if (keys[0].lastChild.childNodes[1].classList.contains('hidden') && keys[0].lastChild.childNodes[2].classList.contains('hidden')) {
+      if (
+        keys[0].lastChild.childNodes[1].classList.contains('hidden') &&
+        keys[0].lastChild.childNodes[2].classList.contains('hidden')
+      ) {
         if (event.key === 'CapsLock') {
           return;
         }
@@ -563,23 +571,33 @@ document.addEventListener('keydown', (event) => {
       }
 
       // Вставка больших русс букв
-      if (keys[0].lastChild.firstChild.classList.contains('hidden') && keys[0].lastChild.childNodes[2].classList.contains('hidden')) {
+      if (
+        keys[0].lastChild.firstChild.classList.contains('hidden') &&
+        keys[0].lastChild.childNodes[2].classList.contains('hidden')
+      ) {
         if (event.key === 'CapsLock') {
           return;
         }
-        if (key.firstChild.childNodes[1].textContent === event.key
-          || key.firstChild.childNodes[0].textContent === event.key) {
+        if (
+          key.firstChild.childNodes[1].textContent === event.key ||
+          key.firstChild.childNodes[0].textContent === event.key
+        ) {
           textArea.value += key.lastChild.childNodes[1].textContent;
         }
       }
 
       // Вставка капс русс букв
-      if (keys[0].lastChild.firstChild.classList.contains('hidden') && keys[0].lastChild.childNodes[1].classList.contains('hidden')) {
+      if (
+        keys[0].lastChild.firstChild.classList.contains('hidden') &&
+        keys[0].lastChild.childNodes[1].classList.contains('hidden')
+      ) {
         if (event.key === 'CapsLock') {
           return;
         }
-        if (key.firstChild.firstChild.textContent === event.key
-          || key.firstChild.childNodes[2].textContent === event.key) {
+        if (
+          key.firstChild.firstChild.textContent === event.key ||
+          key.firstChild.childNodes[2].textContent === event.key
+        ) {
           textArea.value += key.lastChild.childNodes[2].textContent;
         }
       }
